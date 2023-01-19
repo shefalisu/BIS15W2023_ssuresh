@@ -1,0 +1,72 @@
+---
+title: "Lab 4 Warmup"
+output: html_document
+date: "2023-01-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+##Load the tidyverse 
+```{r}
+library("tidyverse")
+```
+
+# load palmerpenguins
+
+```{r}
+library("palmerpenguins")
+palmerpenguins::penguins
+```
+#Dimensions of dataset 
+```{r}
+str(penguins)
+```
+The dimensions are 344 rows by 8 columns 
+
+```{r}
+dim(penguins)
+```
+
+
+#names of the variabes 
+
+```{r}
+names(penguins)
+```
+
+#number of individuals 
+
+```{r}
+table(penguins$island)
+```
+
+#mean body mass for all the individuals 
+
+```{r}
+mean(penguins$body_mass_g, NA,rm = T)
+```
+
+
