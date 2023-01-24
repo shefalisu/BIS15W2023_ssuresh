@@ -1,0 +1,91 @@
+---
+title: "Lab 5 Warmup"
+output: html_document
+date: "2023-01-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#Load tidyverse
+
+```{r}
+library("tidyverse")
+```
+
+
+#Load Bison Data 
+```{r}
+bison <- readr::read_csv("data/bison.csv")
+```
+
+#Dimensions and Structure 
+
+```{r}
+dim(bison)
+```
+
+```{r}
+glimpse(bison)
+```
+
+#New Data Frame: (code, sex, weight, year of birth)
+
+```{r}
+bison_new <- select(bison, "animal_code", "animal_sex", "animal_weight", "animal_yob")
+bison_new
+```
+#animals born between 1980-1990.
+```{r}
+bison_range <- filter(bison_new, between(animal_yob, 1980, 1990))
+```
+
+# How many male and female bison are represented between 1980-1990?
+
+```{r}
+table(bison_range$animal_sex)
+```
+
+#Between 1980-1990, were males or females larger on average?
+
+```{r}
+female_bison <- filter(bison_range, animal_sex == "F")
+female_bison
+```
+
+```{r}
+mean(female_bison$animal_weight)
+```
+
+
+```{r}
+male_bison <- filter(bison_range, animal_sex == "M")
+male_bison
+```
+
+```{r}
+mean(male_bison$animal_weight)
+```
+
+
