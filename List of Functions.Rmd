@@ -234,6 +234,11 @@ hbirds
 write.csv(hbirds, "hbirds_data.csv", row.names = FALSE)
 ```
 
+-Load csv files 
+```{r}
+mammals <- readr::read_csv("data/mammal_lifehistories_v2.csv")
+```
+
 
 ## Lab 3.2 Functions 
 
