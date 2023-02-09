@@ -1,0 +1,54 @@
+---
+title: "Lab 9 Intro"
+date: "`r Sys.Date()`"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library("jpeg")
+```
+
+## Seating
+1. If you already have a group, it will be helpful to start sitting next to each other.
+2. If you don't have a group, hang tight we are working on it.
+3. Please setup your computer as normal for today.
+
+## Warm-up
+1. In the data folder there is an epidemiology data set on an outbreak of malaria.
+2. `rdt` refers to rapid diagnostic test and they are identified here by age group.
+3. Make the data tidy and store them as a new object.
+4. Which district had the highest *total* number of cases on July 30, 2020?
+
+## Load the tidyverse
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+
+Malaria csv file 
+```{r}
+malaria <- read_csv("data/malaria.csv") %>% clean_names()
+malaria
+```
+
+Pivot longer 
+```{r}
+malaria_long <- malaria %>% 
+  pivot_longer(cols=starts_with("malaria_rdt"),
+               names_to = "age_class",
+               values_to = "cases") %>% 
+  select(newid, data_date, submitted_date, location_name, province, district, age_class, cases)
+
+malaria_long
+```
+```{r}
+malaria_long %>% 
+  filter(data_date == "2020-07-30") %>% 
+  group_by(district) %>% 
+  summarize(tot_cases= sum(cases, na.rm = T)) %>% 
+  arrange(-tot_cases)
+```
+
