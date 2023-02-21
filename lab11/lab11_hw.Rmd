@@ -143,5 +143,13 @@ gapminder %>%
 
 **10. Make one plot of your choice that uses faceting!**
 
+```{r}
+gapminder %>%
+  ggplot(aes(x = pop))+
+  geom_density()+
+  facet_grid(lifeExp~continent)
+```
+
+
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
