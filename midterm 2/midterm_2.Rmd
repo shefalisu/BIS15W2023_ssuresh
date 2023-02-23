@@ -102,16 +102,88 @@ surgery %>%
 
 6. (3 points) Create a plot that displays the distribution of body mass index for each `asa_status` as a probability distribution- not a histogram. (hint: use faceting!)
 
+```{r}
+surgery %>%
+  na.omit() %>% 
+  ggplot(aes(x= bmi, fill=asa_status))+
+  geom_density() +
+  facet_wrap(~asa_status)
+  labs(x = "ASA Status", y = "Number of Participants", title = "Number of ASA Status")
+```
+
+
 The variable `ccsmort30rate` is a measure of the overall 30-day mortality rate associated with each type of operation. The variable `ccscomplicationrate` is a measure of the 30-day in-hospital complication rate. The variable `ahrq_ccs` lists each type of operation.  
 
 7. (4 points) What are the 5 procedures associated with highest risk of 30-day mortality AND how do they compare with the 5 procedures with highest risk of complication? (hint: no need for a plot here)
 
+```{r}
+surgery %>%
+  group_by(ahrq_ccs) %>%
+  summarise(avg_ccscomplicationrate = mean(ccscomplicationrate)) %>% 
+  arrange(desc(avg_ccscomplicationrate)) %>%
+  slice_head(n=5) #select 5 elements 
+```
+
+```{r}
+surgery %>%
+  group_by(ahrq_ccs) %>%
+  summarise(avg_ccsmort30rate = mean(ccsmort30rate)) %>% 
+  arrange(desc(avg_ccsmort30rate)) %>%
+  slice_head(n=5) #select 5 elements 
+```
+
 8. (3 points) Make a plot that compares the `ccsmort30rate` for all listed `ahrq_ccs` procedures.
+
+```{r}
+surgery %>%
+  group_by(ahrq_ccs) %>%
+  summarise(avg_ccsmort30rate = mean(ccsmort30rate)) %>%
+  ggplot(aes(x= ahrq_ccs, y =avg_ccsmort30rate))+
+  geom_col()+
+  coord_flip() +
+  labs(x = "Average Mortality Rate", y= "Type of Operation", title = "Type of Operation and Its Mortality Rate")
+```
+
 
 9. (4 points) When is the best month to have surgery? Make a chart that shows the 30-day mortality and complications for the patients by month. `mort30` is the variable that shows whether or not a patient survived 30 days post-operation.
 
+```{r}
+surgery$mort30 <- ifelse(surgery$mort30 == "Yes", 1,0)
+surgery
+  
+```
+
+```{r}
+surgery$complication <- ifelse(surgery$complication == "Yes", 1,0)
+surgery
+  
+```
+
+```{r}
+surgery %>%
+  group_by(month) %>%
+  summarize(num_mort = sum(mort30), num_comp = sum(complication))
+  
+```
+
+
 10. (4 points) Make a plot that visualizes the chart from question #9. Make sure that the months are on the x-axis. Do a search online and figure out how to order the months Jan-Dec.
 
+```{r}
+surgery %>%
+  group_by(month) %>%
+  summarize(num_mort = sum(mort30), num_comp = sum(complication)) %>% 
+  ggplot(aes(x= month, y= num_mort, fill=month))+
+  geom_col()+
+  scale_x_discrete(limit=month.abb)
+```
+
+
 Please provide the names of the students you have worked with with during the exam:
+
+```{r}
+#I worked with Ingrid Jimenez Ledesma and Rafael Vasquez-Chan 
+```
+
 
 Please be 100% sure your exam is saved, knitted, and pushed to your github repository. No need to submit a link on canvas, we will find your exam in your repository.
